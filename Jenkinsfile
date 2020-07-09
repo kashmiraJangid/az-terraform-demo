@@ -1,8 +1,7 @@
 pipeline {
   agent any
   environment { 
-    HTTP_PROXY = credentials('proxy')
-    HTTPS_PROXY = credentials('proxy')
+    
   }
   stages {
     stage('Terraform Init') {
