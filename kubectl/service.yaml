@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: spdemo
+  labels:
+    app: spdemo
+spec:
+  selector:
+    app: spdemo
+  ports:
+    - name: fe
+      protocol: TCP
+      port: 8001
+      targetPort: 8080
+    - name: be
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
