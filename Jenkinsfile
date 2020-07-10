@@ -18,6 +18,14 @@ pipeline {
         sh "terraform apply -input=false tfplan"
       }
     }
+    stage('Deployments') {
+      steps {
+        input 'Deploy'
+        sh "kubectl apply -f kubeclt/deployments.yaml"
+        sh "kubectl apply -f kubeclt/service.yaml"
+        sh "kubectl get services"
+      }
+    }
     stage('Test') {
       steps {
         script {
