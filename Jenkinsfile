@@ -21,7 +21,7 @@ pipeline {
     stage('Deploy to cloud') {
       steps {
         input 'Deploy'
-        sh "az aks get-credentials --resource-group spdemo-rg --name spdemo-aks"
+        sh "az aks get-credentials --resource-group spdemo-rg --name spdemo-aks  --overwrite-existing"
         sh "kubectl apply -f kubeclt/deployments.yaml"
         sh "kubectl apply -f kubeclt/service.yaml"
       }
