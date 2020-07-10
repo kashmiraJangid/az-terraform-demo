@@ -18,12 +18,12 @@ pipeline {
         sh "terraform apply -input=false tfplan"
       }
     }
-    stage('Deployments') {
+    stage('Deploy to cloud') {
       steps {
         input 'Deploy'
+        sh "az aks get-credentials --resource-group spdemo-rg --name spdemo-aks"
         sh "kubectl apply -f kubeclt/deployments.yaml"
         sh "kubectl apply -f kubeclt/service.yaml"
-        sh "kubectl get services"
       }
     }
     stage('Test') {
