@@ -20,6 +20,12 @@ resource "azurerm_resource_group" "default" {
   }
 }
 
+# Public IP
+data "azurerm_public_ip" "default" {
+  name                = "public-ip-for-demo"
+  resource_group_name = "public-ip-resource-group"
+}
+
 resource "azurerm_kubernetes_cluster" "default" {
   name                = "${random_pet.prefix.id}-aks"
   location            = azurerm_resource_group.default.location
@@ -44,12 +50,15 @@ resource "azurerm_kubernetes_cluster" "default" {
   tags = {
     environment = "Demo"
   }
-}
 
-output "resource_group_name" {
-  value = azurerm_resource_group.default.name
-}
+  network_profile {
+    network_plugin     = "kubenet"
+    load_balancer_sku  = "Standard"
 
-output "kubernetes_cluster_name" {
-  value = azurerm_kubernetes_cluster.default.name
+    load_balancer_profile {
+      outbound_ip_address_ids = [ "${data.azurerm_public_ip.default.id}" ]
+    }
+  }
+
+  depends_on = [data.azurerm_public_ip.default]
 }
