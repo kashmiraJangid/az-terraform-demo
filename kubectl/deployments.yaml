@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: spdemo
-          image: matthewmabon/spdemo:1.3
+          image: matthewmabon/spdemo:1.4
           ports:
             - containerPort: 8080
         - name: spdemo-fe
